@@ -9,14 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #0a0a0a;
-    --bg-elevated: #121212;
-    --fg: #e8e6e1;
-    --fg-dim: #8a8680;
-    --fg-faint: #3d3a35;
-    --accent: #d4ff3a;
-    --accent-warm: #ff6b35;
-    --border: #1f1f1f;
+    --bg: #f5f3ee;
+    --bg-elevated: #ebe8e0;
+    --fg: #1a1a1a;
+    --fg-dim: #6b6862;
+    --fg-faint: #c4bfb5;
+    --accent: #ff5722;
+    --accent-soft: #ffe4d6;
+    --border: #d9d4c7;
     --mono: 'JetBrains Mono', ui-monospace, monospace;
     --serif: 'Fraunces', Georgia, serif;
   }
@@ -36,7 +36,7 @@
     content: "";
     position: fixed;
     inset: 0;
-    background-image: radial-gradient(circle at 30% 20%, rgba(212, 255, 58, 0.04) 0%, transparent 50%);
+    background-image: radial-gradient(circle at 30% 20%, rgba(255, 87, 34, 0.05) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -65,7 +65,6 @@
     gap: 12px;
   }
 
-  /* Meta header */
   .meta-row {
     display: flex;
     justify-content: space-between;
@@ -99,7 +98,6 @@
     line-height: 1.5;
   }
 
-  /* Info grid */
   .info-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -127,7 +125,6 @@
     color: var(--fg);
   }
 
-  /* Sections */
   section { margin-bottom: 80px; }
 
   h2 {
@@ -185,7 +182,6 @@
     font-weight: 500;
   }
 
-  /* Code block */
   pre {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
@@ -198,11 +194,10 @@
     color: var(--fg-dim);
   }
 
-  pre .kw { color: var(--accent-warm); }
-  pre .str { color: var(--accent); }
+  pre .kw { color: var(--accent); font-weight: 500; }
+  pre .str { color: #2e7d32; }
   pre .com { color: var(--fg-faint); font-style: italic; }
 
-  /* Tech stack tags */
   .tags {
     display: flex;
     flex-wrap: wrap;
@@ -216,9 +211,9 @@
     border-radius: 2px;
     font-size: 11px;
     color: var(--fg-dim);
+    background: var(--bg);
   }
 
-  /* Footer nav */
   .next-nav {
     margin-top: 96px;
     padding-top: 24px;
