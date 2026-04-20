@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anomaly Detection — Sinhyuk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #121212;
+    --fg: #e8e6e1;
+    --fg-dim: #8a8680;
+    --fg-faint: #3d3a35;
+    --accent: #d4ff3a;
+    --accent-warm: #ff6b35;
+    --border: #1f1f1f;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'Fraunces', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 70% 30%, rgba(255, 107, 53, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 32px 120px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--fg-dim);
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: 64px;
+    transition: color 0.2s, gap 0.2s;
+  }
+
+  .back:hover { color: var(--accent); gap: 12px; }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    font-size: 11px;
+    color: var(--fg-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta-row .num { color: var(--accent); }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(44px, 6.5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--fg-dim);
+    margin-bottom: 64px;
+    line-height: 1.5;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 80px;
+  }
+
+  .info-cell {
+    background: var(--bg);
+    padding: 20px;
+  }
+
+  .info-cell .label {
+    font-size: 10px;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+
+  .info-cell .value { font-size: 14px; color: var(--fg); }
+
+  section { margin-bottom: 80px; }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  h2::before {
+    content: "§ ";
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 16px;
+    vertical-align: 0.15em;
+  }
+
+  p {
+    color: var(--fg);
+    margin-bottom: 16px;
+    max-width: 65ch;
+  }
+
+  p.lead {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--fg);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  .formula {
+    background: var(--bg-elevated);
+    border-left: 3px solid var(--accent);
+    padding: 32px;
+    margin: 32px 0;
+    text-align: center;
+  }
+
+  .formula .eq {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+
+  .formula .note {
+    font-size: 11px;
+    color: var(--fg-dim);
+    margin-top: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  ul { list-style: none; margin-bottom: 16px; }
+
+  li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 12px;
+  }
+
+  li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  strong { color: var(--accent); font-weight: 500; }
+
+  pre {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 20px;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    color: var(--fg-dim);
+  }
+
+  pre .kw { color: var(--accent-warm); }
+  pre .str { color: var(--accent); }
+  pre .com { color: var(--fg-faint); font-style: italic; }
+  pre .fn { color: #7dd3fc; }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 48px;
+  }
+
+  .tag {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 11px;
+    color: var(--fg-dim);
+  }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 32px 0 48px;
+  }
+
+  .metric {
+    padding: 24px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+  }
+
+  .metric .num {
+    font-family: var(--serif);
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .metric .lbl {
+    font-size: 11px;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .next-nav {
+    margin-top: 96px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .next-nav a {
+    color: var(--fg-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .next-nav a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .container { padding: 32px 20px 80px; }
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+    .metric-grid { grid-template-columns: 1fr; }
+    .subtitle { font-size: 18px; margin-bottom: 48px; }
+    h2 { font-size: 26px; }
+    p.lead { font-size: 17px; }
+    .formula .eq { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../../" class="back">← back to index</a>
+
+  <div class="meta-row">
+    <span><span class="num">02</span> / 03 · PROJECT</span>
+    <span>2024 · PRODUCTION</span>
+  </div>
+
+  <h1>Anomaly<br />Detection.</h1>
+  <p class="subtitle">실시간 추출량 이상 감지 시스템.<br />조용한 새벽을 위하여.</p>
+
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="label">Role</div>
+      <div class="value">Backend</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Year</div>
+      <div class="value">2024</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Scale</div>
+      <div class="value">~1M events/hr</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Status</div>
+      <div class="value" style="color: var(--accent);">● Running</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Problem</h2>
+    <p class="lead">
+      수십 개의 쇼핑 콘텐츠 소스에서 매 순간 데이터가 들어옵니다.
+      어느 날 갑자기 추출량이 평소의 10분의 1로 떨어져도 알아차리지 못한다면?
+      수집 파이프라인의 침묵은 곧 사고입니다.
+    </p>
+    <p>
+      단순한 임계값 기반 알람은 이미 있었지만, 소스마다 볼륨이 제각각이라
+      고정값으로는 제대로 동작하지 않았습니다.
+      <strong>소스별로 자기 자신의 과거와 비교하는 통계적 접근</strong>이 필요했습니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>Approach</h2>
+    <p>
+      Z-score 기반 이상 감지에 "하드 스톱" 보조 조건을 결합한 하이브리드 방식을 설계했습니다.
+    </p>
+
+    <div class="formula">
+      <div class="eq">threshold = μ + MAX(K · σ, μ · R)</div>
+      <div class="note">μ = moving average · σ = std deviation · K, R = tunable</div>
+    </div>
+
+    <ul>
+      <li><strong>Z-score 파트 (K·σ).</strong> 정상 분포 내에서의 튀는 구간을 잡습니다.</li>
+      <li><strong>비율 하한 (μ·R).</strong> σ가 너무 작게 계산되는 초기 구간에서 오탐을 줄입니다.</li>
+      <li><strong>MAX 조합.</strong> 둘 중 엄격한 쪽을 채택해 "이건 진짜다" 싶은 경우만 알람.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Architecture</h2>
+    <pre><span class="com">// Redis ZSET 기반 슬라이딩 윈도우</span>
+<span class="kw">public</span> <span class="kw">void</span> <span class="fn">record</span>(String sourceId, <span class="kw">long</span> count) {
+  String key = <span class="str">"extract:win:"</span> + sourceId;
+  <span class="kw">long</span> now = System.currentTimeMillis();
+
+  redis.opsForZSet().<span class="fn">add</span>(key, now + <span class="str">":"</span> + count, now);
+  redis.opsForZSet().<span class="fn">removeRangeByScore</span>(
+    key, <span class="str">0</span>, now - WINDOW_MS   <span class="com">// 1시간 윈도우</span>
+  );
+  redis.<span class="fn">expire</span>(key, Duration.<span class="fn">ofHours</span>(<span class="str">2</span>));
+}
+
+<span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">isAnomaly</span>(String sourceId, <span class="kw">long</span> current) {
+  Stats s = <span class="fn">computeStats</span>(sourceId);   <span class="com">// μ, σ from ZSET</span>
+  <span class="kw">double</span> threshold = s.mu - Math.<span class="fn">max</span>(
+    K * s.sigma,
+    s.mu * R
+  );
+  <span class="kw">return</span> current < threshold;
+}</pre>
+
+    <p>
+      감지되면 <strong>Naver Works Bot</strong>을 통해 담당자 채널로 즉시 알람.
+      복구 여부까지 추적해 "복구됨" 메시지도 자동 전송하게 만들었습니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>Results</h2>
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="num">-94%</div>
+        <div class="lbl">False positive</div>
+      </div>
+      <div class="metric">
+        <div class="num">3min</div>
+        <div class="lbl">Detection latency</div>
+      </div>
+      <div class="metric">
+        <div class="num">12</div>
+        <div class="lbl">Incidents prevented</div>
+      </div>
+    </div>
+    <p>
+      기존 고정 임계값 대비 오탐을 크게 줄이면서 실제 장애 감지율은 유지했습니다.
+      "밤에 알림 울려서 깼는데 정상이었던" 경우가 거의 사라졌습니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>Tech Stack</h2>
+    <div class="tags">
+      <span class="tag">Java 17</span>
+      <span class="tag">Spring Boot</span>
+      <span class="tag">Redis ZSET</span>
+      <span class="tag">Kafka</span>
+      <span class="tag">ShedLock</span>
+      <span class="tag">Naver Works API</span>
+    </div>
+  </section>
+
+  <div class="next-nav">
+    <a href="../moch/">← Prev: MOCH</a>
+    <a href="../kafka-cluster/">Next: Kafka Cluster →</a>
+  </div>
+
+</div>
+</body>
+</html>

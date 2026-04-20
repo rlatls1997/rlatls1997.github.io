@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kafka Consumer Cluster — Sinhyuk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #121212;
+    --fg: #e8e6e1;
+    --fg-dim: #8a8680;
+    --fg-faint: #3d3a35;
+    --accent: #d4ff3a;
+    --accent-warm: #ff6b35;
+    --border: #1f1f1f;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'Fraunces', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 50% 10%, rgba(212, 255, 58, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 32px 120px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--fg-dim);
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: 64px;
+    transition: color 0.2s, gap 0.2s;
+  }
+
+  .back:hover { color: var(--accent); gap: 12px; }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    font-size: 11px;
+    color: var(--fg-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta-row .num { color: var(--accent); }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--fg-dim);
+    margin-bottom: 64px;
+    line-height: 1.5;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 80px;
+  }
+
+  .info-cell { background: var(--bg); padding: 20px; }
+
+  .info-cell .label {
+    font-size: 10px;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+
+  .info-cell .value { font-size: 14px; color: var(--fg); }
+
+  section { margin-bottom: 80px; }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  h2::before {
+    content: "§ ";
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 16px;
+    vertical-align: 0.15em;
+  }
+
+  p {
+    color: var(--fg);
+    margin-bottom: 16px;
+    max-width: 65ch;
+  }
+
+  p.lead {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--fg);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  ul { list-style: none; margin-bottom: 16px; }
+
+  li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 12px;
+  }
+
+  li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  strong { color: var(--accent); font-weight: 500; }
+
+  pre {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 20px;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    color: var(--fg-dim);
+  }
+
+  pre .kw { color: var(--accent-warm); }
+  pre .str { color: var(--accent); }
+  pre .com { color: var(--fg-faint); font-style: italic; }
+  pre .fn { color: #7dd3fc; }
+
+  /* ASCII diagram */
+  .diagram {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 28px;
+    font-size: 12px;
+    color: var(--fg-dim);
+    line-height: 1.5;
+    overflow-x: auto;
+    margin: 32px 0;
+    white-space: pre;
+  }
+
+  .diagram b { color: var(--accent); font-weight: normal; }
+  .diagram em { color: var(--accent-warm); font-style: normal; }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 48px;
+  }
+
+  .tag {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 11px;
+    color: var(--fg-dim);
+  }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .compare-cell {
+    padding: 24px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+  }
+
+  .compare-cell.bad { border-left: 3px solid #ff4444; }
+  .compare-cell.good { border-left: 3px solid var(--accent); }
+
+  .compare-cell h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+    color: var(--fg-dim);
+  }
+
+  .compare-cell p {
+    font-size: 13px;
+    margin: 0;
+  }
+
+  .next-nav {
+    margin-top: 96px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .next-nav a {
+    color: var(--fg-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .next-nav a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .container { padding: 32px 20px 80px; }
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+    .compare { grid-template-columns: 1fr; }
+    .subtitle { font-size: 18px; margin-bottom: 48px; }
+    h2 { font-size: 26px; }
+    p.lead { font-size: 17px; }
+    .diagram { font-size: 10px; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../../" class="back">← back to index</a>
+
+  <div class="meta-row">
+    <span><span class="num">03</span> / 03 · PROJECT</span>
+    <span>2024 · PRODUCTION</span>
+  </div>
+
+  <h1>Kafka Consumer<br />Cluster.</h1>
+  <p class="subtitle">브로드캐스트 패턴을 위한<br />노드별 컨슈머 그룹 전략.</p>
+
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="label">Role</div>
+      <div class="value">Backend</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Year</div>
+      <div class="value">2024</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Nodes</div>
+      <div class="value">4 × WAS</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Status</div>
+      <div class="value" style="color: var(--accent);">● Running</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Problem</h2>
+    <p class="lead">
+      모든 WAS 노드가 <em>같은 이벤트</em>를 받아서 각자의 로컬 캐시를 갱신해야 하는 요구사항.
+      일반적인 컨슈머 그룹 구조로는 해결되지 않는 문제였습니다.
+    </p>
+    <p>
+      Kafka의 컨슈머 그룹은 <strong>그룹 단위로 메시지를 나눠 가져가는</strong> 구조입니다.
+      같은 그룹 안의 노드들이 파티션을 분배받기 때문에,
+      4개 노드가 같은 그룹을 쓰면 각자 다른 메시지만 받습니다.
+      캐시 갱신 같은 브로드캐스트 목적에는 부적합합니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>Design Comparison</h2>
+    <div class="compare">
+      <div class="compare-cell bad">
+        <h3>— Naive</h3>
+        <p>모든 노드가 <code>cache-updater</code> 같은 동일 그룹 사용.<br />→ 각 노드가 일부 메시지만 받음.<br />→ 캐시 일관성 깨짐.</p>
+      </div>
+      <div class="compare-cell good">
+        <h3>— Adopted</h3>
+        <p>각 노드가 <code>cache-updater-${HOSTNAME}</code>로 고유 그룹 할당.<br />→ 모든 노드가 모든 메시지 수신.<br />→ 완전한 브로드캐스트.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Architecture</h2>
+    <div class="diagram">
+                    Kafka Topic: <b>cache.invalidate</b>
+                    ┌─────────────────────────────┐
+                    │  P0  │  P1  │  P2  │  P3    │
+                    └─────────────────────────────┘
+                           │      │      │
+                ┌──────────┼──────┼──────┼──────────┐
+                ▼          ▼      ▼      ▼          ▼
+           ┌─────────┐                         ┌─────────┐
+           │  WAS-1  │  <em>cache-updater-was1</em>   │  WAS-N  │
+           │ ┌─────┐ │                         │ ┌─────┐ │
+           │ │cache│ │  ← 모든 파티션 소비       │ │cache│ │
+           │ └─────┘ │                         │ └─────┘ │
+           └─────────┘                         └─────────┘
+    </div>
+  </section>
+
+  <section>
+    <h2>Configuration</h2>
+    <pre><span class="com">// 노드별 고유 그룹 ID 주입</span>
+<span class="kw">@Configuration</span>
+<span class="kw">public class</span> <span class="fn">KafkaConsumerConfig</span> {
+
+  <span class="kw">@Value</span>(<span class="str">"${HOSTNAME:unknown}"</span>)
+  <span class="kw">private</span> String hostname;
+
+  <span class="kw">@Bean</span>
+  <span class="kw">public</span> ConsumerFactory&lt;String, String&gt; <span class="fn">cacheConsumerFactory</span>() {
+    Map&lt;String, Object&gt; props = <span class="kw">new</span> HashMap&lt;&gt;();
+    props.<span class="fn">put</span>(GROUP_ID_CONFIG, <span class="str">"cache-updater-"</span> + hostname);
+    props.<span class="fn">put</span>(AUTO_OFFSET_RESET_CONFIG, <span class="str">"latest"</span>);
+    props.<span class="fn">put</span>(ENABLE_AUTO_COMMIT_CONFIG, <span class="kw">false</span>);
+    <span class="kw">return new</span> <span class="fn">DefaultKafkaConsumerFactory</span>&lt;&gt;(props);
+  }
+}</pre>
+  </section>
+
+  <section>
+    <h2>Considerations</h2>
+    <ul>
+      <li><strong>Offset reset = latest.</strong> 새로 뜨는 노드는 과거 캐시 이벤트를 재생할 필요 없음. 시작 시점 이후만 처리.</li>
+      <li><strong>Auto-commit = false.</strong> 캐시 갱신 실패 시 재시도 가능성을 열어두기 위해 수동 커밋.</li>
+      <li><strong>그룹 정리.</strong> 노드 교체 시 과거 그룹이 남는 문제는 Kafka의 offsets retention(기본 7일)로 자연 정리.</li>
+      <li><strong>모니터링.</strong> 그룹 수가 노드 수만큼 늘어나므로 컨슈머 랙 대시보드에서 필터링 필수.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Tech Stack</h2>
+    <div class="tags">
+      <span class="tag">Apache Kafka</span>
+      <span class="tag">Spring Kafka</span>
+      <span class="tag">Java 17</span>
+      <span class="tag">OpenSearch</span>
+      <span class="tag">SASL/SCRAM</span>
+    </div>
+  </section>
+
+  <div class="next-nav">
+    <a href="../anomaly-detection/">← Prev: Anomaly Detection</a>
+    <a href="../../">Back to Index →</a>
+  </div>
+
+</div>
+</body>
+</html>

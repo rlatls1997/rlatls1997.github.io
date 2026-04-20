@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MOCH — Sinhyuk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #121212;
+    --fg: #e8e6e1;
+    --fg-dim: #8a8680;
+    --fg-faint: #3d3a35;
+    --accent: #d4ff3a;
+    --accent-warm: #ff6b35;
+    --border: #1f1f1f;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'Fraunces', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 30% 20%, rgba(212, 255, 58, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 32px 120px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--fg-dim);
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: 64px;
+    transition: color 0.2s, gap 0.2s;
+  }
+
+  .back:hover {
+    color: var(--accent);
+    gap: 12px;
+  }
+
+  /* Meta header */
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    font-size: 11px;
+    color: var(--fg-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta-row .num { color: var(--accent); }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(48px, 7vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--fg-dim);
+    margin-bottom: 64px;
+    line-height: 1.5;
+  }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 80px;
+  }
+
+  .info-cell {
+    background: var(--bg);
+    padding: 20px;
+  }
+
+  .info-cell .label {
+    font-size: 10px;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+
+  .info-cell .value {
+    font-size: 14px;
+    color: var(--fg);
+  }
+
+  /* Sections */
+  section { margin-bottom: 80px; }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  h2::before {
+    content: "§ ";
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 16px;
+    vertical-align: 0.15em;
+  }
+
+  p {
+    color: var(--fg);
+    margin-bottom: 16px;
+    max-width: 65ch;
+  }
+
+  p.lead {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--fg);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  ul {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+
+  li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 12px;
+    color: var(--fg);
+  }
+
+  li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  strong {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Code block */
+  pre {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 20px;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    color: var(--fg-dim);
+  }
+
+  pre .kw { color: var(--accent-warm); }
+  pre .str { color: var(--accent); }
+  pre .com { color: var(--fg-faint); font-style: italic; }
+
+  /* Tech stack tags */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 48px;
+  }
+
+  .tag {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 11px;
+    color: var(--fg-dim);
+  }
+
+  /* Footer nav */
+  .next-nav {
+    margin-top: 96px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .next-nav a {
+    color: var(--fg-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .next-nav a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .container { padding: 32px 20px 80px; }
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+    .subtitle { font-size: 18px; margin-bottom: 48px; }
+    h2 { font-size: 26px; }
+    p.lead { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../../" class="back">← back to index</a>
+
+  <div class="meta-row">
+    <span><span class="num">01</span> / 03 · PROJECT</span>
+    <span>2025 — ONGOING</span>
+  </div>
+
+  <h1>MOCH</h1>
+  <p class="subtitle">아마추어 축구 선수들을 위한<br />위치 기반 팀 매칭 서비스.</p>
+
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="label">Role</div>
+      <div class="value">Full-stack</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Year</div>
+      <div class="value">2025—</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Type</div>
+      <div class="value">Side project</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Status</div>
+      <div class="value" style="color: var(--accent);">● Active</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Overview</h2>
+    <p class="lead">
+      매번 팀원이 부족해 경기가 취소되던 경험에서 출발한 프로젝트입니다.
+      위치 기반으로 가까운 팀을 매칭하고, 경기 일정부터 기록까지 한 곳에서 관리합니다.
+    </p>
+    <p>
+      백엔드와 프론트엔드를 모두 혼자 설계·구현하는 것을 목표로 잡았습니다.
+      실무에서는 주로 Java/Spring 기반으로 작업했지만, 이 프로젝트를 통해
+      Next.js와 모던 프론트엔드 생태계를 깊게 익혀보고자 했습니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>Tech Stack</h2>
+    <div class="tags">
+      <span class="tag">Spring Boot 3</span>
+      <span class="tag">MyBatis</span>
+      <span class="tag">MySQL</span>
+      <span class="tag">Next.js 14</span>
+      <span class="tag">TypeScript</span>
+      <span class="tag">Naver Maps API</span>
+      <span class="tag">GitHub Actions</span>
+      <span class="tag">AWS EC2</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Key Decisions</h2>
+    <ul>
+      <li><strong>MyBatis XML 전용 규칙.</strong> 어노테이션 SQL 금지. 모든 쿼리를 XML로 분리해 리뷰 가능성과 유지보수성을 우선시했습니다.</li>
+      <li><strong>네이버 지도 API 선택.</strong> 국내 사용자 대상이기 때문에 구글 대비 비용 효율과 한국 주소 정확도 모두 우위였습니다.</li>
+      <li><strong>EC2 단일 인스턴스 시작.</strong> ECS Fargate도 검토했지만, 초기 단계에는 비용과 디버깅 용이성 때문에 EC2로 출발.</li>
+      <li><strong>Next.js Static Export.</strong> 공개 페이지 대부분이 정적이므로 SSR 대신 SG로 단순화.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Architecture Snippet</h2>
+    <pre><span class="com"># docker-compose.dev.yml</span>
+<span class="kw">services</span>:
+  <span class="kw">db</span>:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: <span class="str">moch</span>
+      MYSQL_ROOT_PASSWORD: <span class="str">${DB_PASSWORD}</span>
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports: [<span class="str">"3306:3306"</span>]
+
+  <span class="kw">api</span>:
+    build: ./backend
+    environment:
+      SPRING_PROFILES_ACTIVE: <span class="str">dev</span>
+      NAVER_CLIENT_ID: <span class="str">${NAVER_CLIENT_ID}</span>
+    depends_on: [db]
+    ports: [<span class="str">"8080:8080"</span>]</pre>
+  </section>
+
+  <section>
+    <h2>Lessons Learned</h2>
+    <p>
+      "실무와 다른 환경에서 처음부터 끝까지 설계하는 것"의 가치를 다시 느꼈습니다.
+      특히 CI/CD와 프론트엔드를 직접 다뤄보니,
+      평소 API 설계할 때 프론트가 겪는 불편함이 더 선명하게 보입니다.
+    </p>
+  </section>
+
+  <div class="next-nav">
+    <a href="../../">← Index</a>
+    <a href="../anomaly-detection/">Next: Anomaly Detection →</a>
+  </div>
+
+</div>
+</body>
+</html>
