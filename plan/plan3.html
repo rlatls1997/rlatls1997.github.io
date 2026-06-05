@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>홋카이도 여행 · 일정 ③ (오타루 + 노보리베쓰 온천)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2433;
+    --paper:#f6f2e9;
+    --paper2:#efe8da;
+    --indigo:#243b6b;
+    --indigo-soft:#3a5392;
+    --vermilion:#d6452c;
+    --sea:#2f7c97;
+    --line:#d9cfba;
+    --muted:#6b6457;
+    --card:#fffdf8;
+    --shadow:0 14px 40px -18px rgba(28,36,51,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans KR",sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(47,124,151,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(214,69,44,.08), transparent 55%),
+      var(--paper);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:64px 24px 48px;text-align:center;overflow:hidden}
+  .hero .kicker{font-family:"Noto Serif KR",serif;letter-spacing:.5em;font-size:12px;color:var(--vermilion);font-weight:600;margin-bottom:18px;padding-left:.5em}
+  .hero h1{font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(34px,7vw,62px);line-height:1.1;letter-spacing:-.01em;color:var(--indigo)}
+  .hero h1 span{color:var(--vermilion)}
+  .hero .dates{margin-top:14px;font-size:clamp(14px,2.4vw,18px);color:var(--muted);letter-spacing:.04em}
+  .planbadge{display:inline-flex;align-items:center;gap:10px;margin-top:26px;background:var(--vermilion);color:#fff;padding:10px 22px;border-radius:999px;font-weight:700;font-size:14px;letter-spacing:.02em;box-shadow:var(--shadow)}
+  .planbadge b{color:#ffe7cf}
+  .planswitch{margin-top:14px;font-size:13px;color:var(--muted)}
+  .planswitch a{color:var(--sea);text-decoration:none;border-bottom:1px solid var(--sea);font-weight:500}
+
+  /* ---------- DAY NAV ---------- */
+  .daynav{position:sticky;top:0;z-index:30;background:rgba(246,242,233,.86);backdrop-filter:blur(10px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 12px}
+  .daynav a{text-decoration:none;color:var(--indigo);font-weight:600;font-size:13px;padding:7px 14px;border-radius:999px;transition:.2s;white-space:nowrap}
+  .daynav a:hover{background:var(--indigo);color:#fff}
+
+  /* ---------- LAYOUT ---------- */
+  main{max-width:760px;margin:0 auto;padding:30px 20px 60px}
+  .day{margin-top:46px;scroll-margin-top:70px}
+  .day-head{display:flex;align-items:baseline;gap:14px;border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:6px}
+  .day-head .dnum{font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(40px,9vw,70px);line-height:.9;color:var(--vermilion)}
+  .day-head .dmeta .dow{font-family:"Noto Serif KR",serif;font-weight:600;font-size:20px;color:var(--indigo)}
+  .day-head .dmeta .ddate{font-size:13px;color:var(--muted);letter-spacing:.05em}
+  .day-tag{margin-left:auto;align-self:center;font-size:12px;font-weight:700;color:#fff;background:var(--sea);padding:5px 12px;border-radius:999px;letter-spacing:.03em}
+  .day-tag.alt{background:var(--vermilion)}
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{position:relative;padding-left:22px;margin-top:24px}
+  .timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--indigo),var(--sea));opacity:.35}
+  .stop{position:relative;padding:0 0 30px 22px}
+  .stop::before{content:"";position:absolute;left:-22px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--card);border:3px solid var(--indigo)}
+  .stop.food::before{border-color:var(--vermilion)}
+  .stop.move::before{border-color:var(--sea);background:var(--sea)}
+  .time{display:inline-block;font-family:"Noto Serif KR",serif;font-weight:600;font-size:14px;color:var(--indigo);background:var(--paper2);padding:2px 11px;border-radius:6px;letter-spacing:.03em;margin-bottom:6px}
+  .stop.food .time{color:var(--vermilion)}
+  .stop h3{font-family:"Noto Serif KR",serif;font-weight:600;font-size:19px;color:var(--ink);margin:2px 0 4px}
+  .stop p{font-size:14.5px;color:#3c4658}
+  .stop .note{font-size:13px;color:var(--muted);margin-top:4px;background:rgba(217,207,186,.28);border-left:3px solid var(--line);padding:8px 12px;border-radius:0 8px 8px 0}
+  .stop .note b{color:var(--indigo)}
+  .stop a{color:var(--sea);word-break:break-all}
+
+  figure{margin:14px 0 2px;border-radius:14px;overflow:hidden;background:var(--card);box-shadow:var(--shadow);border:1px solid rgba(217,207,186,.6)}
+  figure img{display:block;width:100%;height:auto;background:var(--paper2)}
+  figcaption{font-size:12px;color:var(--muted);padding:8px 12px;letter-spacing:.02em}
+
+  /* ---------- FOOTER ---------- */
+  footer{text-align:center;padding:40px 20px 60px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);margin-top:30px}
+  footer .seal{font-family:"Noto Serif KR",serif;color:var(--vermilion);font-weight:900;font-size:15px;letter-spacing:.3em;padding-left:.3em;margin-bottom:8px}
+  @media(max-width:520px){}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">HOKKAIDO ITINERARY</div>
+  <h1>홋카이도 <span>4일</span> 여행</h1>
+  <div class="dates">7.14 화 → 7.17 금 · 삿포로 · 오타루 · 후라노 / 비에이 · 노보리베쓰</div>
+  <div class="planbadge">일정 <b>③</b> — 첫날: 오타루 운하 · 목요일: 두대불전 · 지옥계곡 · 노보리베쓰 온천</div>
+  <div class="planswitch">다른 코스가 궁금하다면 → <a href="https://rlatls1997.github.io/plan/plan1.html">일정 ① 보기</a> · <a href="https://rlatls1997.github.io/plan/plan2.html">일정 ② 보기</a></div>
+</header>
+
+<nav class="daynav">
+  <a href="#d1">7.14 화</a>
+  <a href="#d2">7.15 수</a>
+  <a href="#d3">7.16 목 ③</a>
+  <a href="#d4">7.17 금</a>
+</nav>
+
+<main>
+
+  <!-- ============ DAY 1 ============ -->
+  <section class="day" id="d1">
+    <div class="day-head">
+      <div class="dnum">1</div>
+      <div class="dmeta">
+        <div class="dow">화요일</div>
+        <div class="ddate">7월 14일 · 인천 → 삿포로</div>
+      </div>
+      <div class="day-tag">이동 · 오타루</div>
+    </div>
+
+    <div class="timeline">
+      <div class="stop move">
+        <span class="time">07:30</span>
+        <h3>출발 · P5 예약주차장</h3>
+        <p>인천광역시 중구 운서동 2851-76 (P5 예약주차장)</p>
+        <div class="note">예약번호 <b>7414HE0013</b><br>
+        셔틀버스: 예약주차장 입구 횡단보도 건너편 정류장 · <b>07:57 / 08:36 / 08:53</b><br>
+        셔틀 안내 ☎ 032-741-3217</div>
+      </div>
+
+      <div class="stop move">
+        <span class="time">11:00</span>
+        <h3>인천공항 출발</h3>
+        <p>13:45 신치토세공항(치토세) 도착 예정.</p>
+      </div>
+
+      <div class="stop">
+        <span class="time">15:30</span>
+        <h3>오타루 도착 (2시간 30분 체류)</h3>
+        <p>운하와 옛 창고 거리로 유명한 항구 도시. 운하 산책과 거리 구경.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="오타루 운하" src="https://commons.wikimedia.org/wiki/Special:FilePath/Otaru_Canal_on_July_19th%2C_2018.jpg?width=1600">
+          <figcaption>오타루 운하 — 석조 창고가 늘어선 운하 풍경</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop">
+        <span class="time">19:00</span>
+        <h3>체크인 · 삿포로 도큐 레이 호텔</h3>
+        <p>호텔에 체크인 후 짐 정리.</p>
+      </div>
+
+      <div class="stop food">
+        <span class="time">20:00</span>
+        <h3>다누키코지 상점가 · 스스키노</h3>
+        <p>약 1km에 이르는 지붕 덮인 다누키코지 아케이드에서 쇼핑과 군것질을, 이어서 네온이 빛나는 스스키노에서 저녁과 라멘 요코초를 즐깁니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="다누키코지 상점가" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tanukikoji_01.jpg?width=1200">
+          <figcaption>다누키코지 상점가 — 약 200개 점포의 아케이드</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DAY 2 ============ -->
+  <section class="day" id="d2">
+    <div class="day-head">
+      <div class="dnum">2</div>
+      <div class="dmeta">
+        <div class="dow">수요일</div>
+        <div class="ddate">7월 15일 · 비에이 / 후라노 투어</div>
+      </div>
+      <div class="day-tag">자연 · 꽃밭</div>
+    </div>
+
+    <div class="timeline">
+      <div class="stop move">
+        <span class="time">08:00</span>
+        <h3>비에이 투어 출발 · 패치워크 로드</h3>
+        <p>버스센터마에역 2번 출구에서 출발. 색색의 밭이 조각보처럼 펼쳐진 패치워크 로드의 언덕길을 달립니다. (10:50 비에이 마을 도착)</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="비에이 패치워크 로드" src="https://commons.wikimedia.org/wiki/Special:FilePath/Biei_colorful_crop_fields%2C_Hokkaido%3B_July_2017_%2801%29.jpg?width=1600">
+          <figcaption>비에이의 패치워크 언덕 — 여름의 색색 밭 풍경</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop">
+        <span class="time">12:20</span>
+        <h3>청의 호수 (아오이이케)</h3>
+        <p>알루미늄 성분이 만들어내는 신비로운 코발트블루의 인공 호수. 죽은 자작나무가 물 위에 선 모습이 비현실적입니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="청의 호수" src="https://commons.wikimedia.org/wiki/Special:FilePath/Shirogane_Blue_Pond%2C_Biei%2C_Hokkaido_Japan.jpg?width=1200">
+          <figcaption>비에이 청의 호수 — 시로가네 온천 인근</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop">
+        <span class="time">13:00</span>
+        <h3>흰수염폭포 (시라히게노타키)</h3>
+        <p>절벽 틈에서 솟아 흘러내리는 지하수 폭포. 약 30m 아래 푸른 비에이강과의 대비가 압권입니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="흰수염폭포" src="https://commons.wikimedia.org/wiki/Special:FilePath/Shirahige_Falls_20230712_01.jpg?width=1000">
+          <figcaption>흰수염폭포 — 푸른 강 위로 떨어지는 흰 물줄기</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop">
+        <span class="time">13:50</span>
+        <h3>사계채의 언덕 (시키사이노오카)</h3>
+        <p>약 7~15ha의 구릉에 무지개처럼 펼쳐진 꽃밭. 7월엔 라벤더와 여름 꽃이 줄무늬를 이룹니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="사계채의 언덕" src="https://commons.wikimedia.org/wiki/Special:FilePath/Yellow_pansies_of_Shikisai-no-oka_01.jpg?width=1200">
+          <figcaption>사계채의 언덕 — 색색의 꽃이 띠를 이루는 파노라마 화원</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop">
+        <span class="time">15:00</span>
+        <h3>팜 토미타</h3>
+        <p>후라노를 대표하는 라벤더 농원. 7월 중순 보랏빛 라벤더가 절정이며 라벤더 소프트아이스크림이 유명합니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="팜 토미타 라벤더" src="https://commons.wikimedia.org/wiki/Special:FilePath/Flowers_at_Farm_Tomita_1.jpg?width=1200">
+          <figcaption>팜 토미타 — 후라노의 상징 라벤더 밭</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop food">
+        <span class="time">18:00</span>
+        <h3>스스키노 복귀 · 시로쿠마 징기스칸</h3>
+        <p>홋카이도 명물 양고기 구이 징기스칸으로 저녁. 이후 자유시간.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="징기스칸" src="https://commons.wikimedia.org/wiki/Special:FilePath/Jingisukan_%2832663955448%29.jpg?width=1200">
+          <figcaption>징기스칸 — 볼록한 철판에 굽는 홋카이도식 양고기 구이</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DAY 3 (PLAN 2) ============ -->
+  <section class="day" id="d3">
+    <div class="day-head">
+      <div class="dnum">3</div>
+      <div class="dmeta">
+        <div class="dow">목요일 · 일정 ③</div>
+        <div class="ddate">7월 16일 · 두대불전 → 노보리베쓰</div>
+      </div>
+      <div class="day-tag alt">렌트카 · 온천</div>
+    </div>
+
+    <div class="timeline">
+      <div class="stop move">
+        <span class="time">07:00</span>
+        <h3>기상 · 08:00 렌트</h3>
+        <p>렌트카로 삿포로 남부를 거쳐 노보리베쓰 방면으로.</p>
+      </div>
+
+      <div class="stop">
+        <span class="time">08:30</span>
+        <h3>두대불전 (아타마 다이부쓰)</h3>
+        <p>건축가 안도 다다오가 설계한 '머리 대불'. 라벤더 언덕 위로 부처의 머리만 살짝 드러나며, 긴 터널을 지나 본존을 만나는 동선이 인상적입니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="두대불전 (언덕의 부처)" src="https://commons.wikimedia.org/wiki/Special:FilePath/Hill_of_the_Buddha%2C_Makomanai_Takino_Cemetery_1_-_Jul_11%2C_2020.jpg?width=1400">
+          <figcaption>두대불전 — 마코마나이 다키노 영원, 안도 다다오 설계</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop">
+        <span class="time">11:00</span>
+        <h3>지옥계곡 (지고쿠다니) · 지역 관광</h3>
+        <p>화산 분화구 자리에서 흰 수증기와 유황 온천이 끓어오르는 노보리베쓰의 명소. 산책로를 따라 분기공을 가까이 봅니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="노보리베쓰 지옥계곡" src="https://commons.wikimedia.org/wiki/Special:FilePath/Noboribetsu_hot_spring_jigokudani.JPG?width=1200">
+          <figcaption>지옥계곡 — 노보리베쓰 온천의 원천이 되는 화산 지대</figcaption>
+        </figure>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="오유누마강 천연족탕" src="https://commons.wikimedia.org/wiki/Special:FilePath/Oyunuma_River_Natural_Footbath.jpg?width=1600">
+          <figcaption>오유누마강 천연족탕 — 온천수가 흐르는 강에서 즐기는 무료 족욕</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop food">
+        <span class="time">12:00</span>
+        <h3>노보리베쓰 점심</h3>
+        <p>온천 마을에서 점심 식사.</p>
+      </div>
+
+      <div class="stop">
+        <span class="time">13:00</span>
+        <h3>다이이치 타키모토칸 온천 (2시간 체류)</h3>
+        <p>지옥계곡의 원천수를 끌어다 쓰는 노보리베쓰 대표 온천. 여러 종류의 탕에서 느긋하게 휴식.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="다이이치 타키모토칸" src="https://www.chalettravel.kr/data/phototrip/2022/111047510610.jpg">
+          <figcaption>다이이치 타키모토칸 — 지옥계곡 옆 노보리베쓰 대표 온천 료칸</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop move">
+        <span class="time">16:30</span>
+        <h3>보요나카야마 미치노에키 (휴게소)</h3>
+        <p>나카야마 고개의 휴게소. 맑은 날엔 '에조 후지' 요테이산의 원뿔형 자태를 조망할 수 있습니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="요테이산" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mt_YOTEI_1.JPG?width=1200">
+          <figcaption>요테이산 (에조 후지) — 나카야마 고개에서 보이는 풍경</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop food">
+        <span class="time">18:00</span>
+        <h3>저녁 · 쥰렌 (라멘)</h3>
+        <p>1964년 창업, 삿포로 미소라멘의 원조로 꼽히는 노포.</p>
+        <div class="note"><a href="https://tabelog.com/kr/hokkaido/A0101/A010303/1000031/" target="_blank" rel="noopener">타베로그 · 쥰렌 (Junren)</a></div>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="삿포로 라멘" src="https://commons.wikimedia.org/wiki/Special:FilePath/151010_Sapporo_ramen_at_Susukino_Sapporo_Hokkaido_Japan01s.jpg?width=1200">
+          <figcaption>삿포로 미소 라멘 — 진한 된장 베이스 국물</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop move">
+        <span class="time">20:00</span>
+        <h3>렌트카 반납 · 자유시간</h3>
+      </div>
+
+      <div class="stop">
+        <span class="time">20:00</span>
+        <h3>삿포로 TV타워</h3>
+        <p>오도리공원 동쪽 끝의 상징적 전파탑. 밤이면 조명이 켜진 타워와 전망대에서 삿포로 야경을 한눈에 담을 수 있습니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="삿포로 TV타워" src="https://commons.wikimedia.org/wiki/Special:FilePath/Sapporo_TV_Tower_on_June_12nd%2C_2019.jpg?width=1600">
+          <figcaption>삿포로 TV타워 — 오도리공원 동쪽 끝의 상징적 전파탑</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DAY 4 ============ -->
+  <section class="day" id="d4">
+    <div class="day-head">
+      <div class="dnum">4</div>
+      <div class="dmeta">
+        <div class="dow">금요일</div>
+        <div class="ddate">7월 17일 · 삿포로 → 인천</div>
+      </div>
+      <div class="day-tag">시내 · 귀국</div>
+    </div>
+
+    <div class="timeline">
+      <div class="stop food">
+        <span class="time">07:00</span>
+        <h3>기상 · 니조시장 · 오도리공원 · 시계탑</h3>
+        <p>도심 한복판의 수산시장에서 게·성게·연어알이 올라간 해산물 덮밥으로 아침. 이후 오도리공원에서 여름 분수와 꽃밭을 거닐고, 일본에서 가장 오래된 시계탑까지 도보로 묶어 둘러봅니다.</p>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="니조시장 해산물" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nijo_fish_Market_2014.jpg?width=1600">
+          <figcaption>니조시장 — 홋카이도 신선 해산물의 부엌</figcaption>
+        </figure>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="오도리공원" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_at_Odori_Park%2C_Sapporo.jpg?width=1600">
+          <figcaption>오도리공원 — 도심을 가로지르는 1.5km 녹지대</figcaption>
+        </figure>
+        <figure>
+          <img loading="lazy" referrerpolicy="no-referrer" alt="삿포로 시계탑" src="https://commons.wikimedia.org/wiki/Special:FilePath/Sapporo_Clock_Tower_Hokkaido_Japan.jpg?width=1000">
+          <figcaption>삿포로 시계탑 — 1878년 건립, 일본 최고(最古)의 시계탑</figcaption>
+        </figure>
+      </div>
+
+      <div class="stop move">
+        <span class="time">10:00</span>
+        <h3>삿포로 역 출발</h3>
+        <p>15:05 신치토세공항 출발 → 18:10 인천공항 도착 → 19:00 복귀.</p>
+        <div class="note">귀국 셔틀버스: 공항 <b>3층 8번 게이트</b><br>
+        <b>18:34 / 18:41 / 18:53 / 19:38</b><br>
+        셔틀 안내 ☎ 032-741-3217</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="seal">良い旅を</div>
+  홋카이도 4일 · 일정 ③ (오타루 + 노보리베쓰 온천)<br>
+  사진 출처: Wikimedia Commons
+</footer>
+
+</body>
+</html>
