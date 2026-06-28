@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>홋카이도 답사 노트 · 알고 가면 다른 여행</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#181a2c;        /* 심야의 잉크빛 남색 */
+    --indigo:#272f5e;     /* 개척기 군청 */
+    --indigo-soft:#3a4682;
+    --lavender:#9a8ad4;   /* 후라노 라벤더 */
+    --lavender-pale:#e9e4f5;
+    --amber:#cf8a3e;      /* 지옥계곡 유황 · 멜론 */
+    --amber-deep:#a8662a;
+    --paper:#f7f4ec;      /* 설국의 종이 */
+    --paper-warm:#efe9dc;
+    --mist:#ece8f1;
+    --line:#d6cfc2;
+    --muted:#6b6655;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans KR",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.78;
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  .mono{font-family:"IBM Plex Mono",monospace}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:var(--ink);
+    color:var(--paper);
+    padding:96px 0 84px;
+    overflow:hidden;
+  }
+  .hero .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--indigo-soft) 1px,transparent 1px),
+      linear-gradient(90deg,var(--indigo-soft) 1px,transparent 1px);
+    background-size:64px 64px;
+    opacity:.16;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 70% 30%,#000 30%,transparent 85%);
+            mask-image:radial-gradient(ellipse 90% 70% at 70% 30%,#000 30%,transparent 85%);
+  }
+  .hero .glow{
+    position:absolute;right:-12%;top:-20%;
+    width:560px;height:560px;border-radius:50%;
+    background:radial-gradient(circle,rgba(154,138,212,.45),transparent 62%);
+    filter:blur(8px);pointer-events:none;
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .hero-eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.8rem;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--lavender);margin-bottom:30px;
+    display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  }
+  .hero-eyebrow .bar{flex:1;height:1px;background:var(--indigo-soft);min-width:30px}
+  .hero h1{
+    font-family:"Gowun Batang",serif;font-weight:700;
+    font-size:clamp(2.7rem,7vw,5.2rem);
+    line-height:1.08;letter-spacing:-.01em;margin-bottom:26px;
+  }
+  .hero h1 em{font-style:normal;color:var(--lavender)}
+  .hero-lead{
+    max-width:540px;font-size:1.05rem;font-weight:300;
+    color:#cdc8de;line-height:1.85;
+  }
+  .hero-meta{
+    margin-top:46px;display:flex;gap:34px;flex-wrap:wrap;
+    font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:#9690b4;
+  }
+  .hero-meta b{display:block;color:var(--paper);font-size:1.45rem;font-weight:500;margin-bottom:3px}
+  .compass{
+    position:absolute;right:34px;top:40px;z-index:2;
+    width:64px;height:64px;opacity:.9;
+  }
+  @media(max-width:640px){.compass{display:none}}
+
+  /* ---------- INTRO STRIP ---------- */
+  .strip{
+    background:var(--indigo);color:var(--lavender-pale);
+    padding:18px 0;font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem;letter-spacing:.08em;
+    border-top:1px solid var(--indigo-soft);
+  }
+  .strip .wrap{display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:center;text-align:center}
+  .strip span{white-space:nowrap}
+  .strip i{color:var(--amber);font-style:normal}
+
+  /* ---------- ENTRIES ---------- */
+  main{padding:72px 0 40px}
+  .entry{
+    padding:54px 0;border-top:1px solid var(--line);
+  }
+  .entry:first-child{border-top:none;padding-top:8px}
+  .entry-head{display:flex;align-items:baseline;gap:18px;margin-bottom:8px;flex-wrap:wrap}
+  .entry-no{
+    font-family:"IBM Plex Mono",monospace;font-size:.82rem;font-weight:600;
+    color:var(--amber-deep);letter-spacing:.12em;
+  }
+  .entry-kicker{
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
+  }
+  .entry h2{
+    font-family:"Gowun Batang",serif;font-weight:700;
+    font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.22;
+    letter-spacing:-.01em;margin:6px 0 4px;
+  }
+  .entry h2 small{
+    display:block;font-family:"Noto Sans KR";font-weight:300;
+    font-size:.92rem;color:var(--muted);letter-spacing:0;margin-top:10px;line-height:1.6;
+  }
+  .entry-body{
+    display:grid;grid-template-columns:1.4fr .85fr;gap:48px;margin-top:30px;align-items:start;
+  }
+  .entry:nth-child(even) .entry-body{grid-template-columns:.85fr 1.4fr}
+  .entry:nth-child(even) .specimen{order:-1}
+  .prose p{margin-bottom:16px;font-size:1.02rem;color:#34323d}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{font-weight:500;color:var(--ink);border-bottom:2px solid var(--lavender-pale);padding-bottom:1px}
+
+  /* specimen card (signature element) */
+  .specimen{
+    position:sticky;top:24px;
+    border:1px solid var(--line);background:var(--paper-warm);
+    padding:26px 24px 22px;border-radius:2px;
+  }
+  .specimen .tag{
+    font-family:"IBM Plex Mono",monospace;font-size:.66rem;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    display:flex;justify-content:space-between;margin-bottom:18px;
+  }
+  .specimen .fig{
+    font-family:"IBM Plex Mono",monospace;font-weight:600;
+    font-size:clamp(2.6rem,6vw,3.7rem);line-height:.95;
+    color:var(--indigo);letter-spacing:-.02em;
+  }
+  .specimen .fig u{text-decoration:none;color:var(--amber-deep)}
+  .specimen .fig-label{
+    margin-top:14px;font-size:.9rem;color:#45424d;font-weight:400;line-height:1.6;
+  }
+  .specimen .divider{height:1px;background:var(--line);margin:18px 0}
+  .specimen .note{font-size:.82rem;color:var(--muted);line-height:1.7}
+
+  /* trip tie-in chip */
+  .tiein{
+    display:inline-flex;align-items:center;gap:8px;margin-top:22px;
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.04em;
+    color:var(--indigo);background:var(--mist);
+    border:1px solid var(--lavender-pale);border-radius:99px;padding:7px 15px;
+  }
+  .tiein b{color:var(--amber-deep);font-weight:600}
+
+  /* onsen 100-sen ranking strip */
+  .rank100{margin-top:34px;border:1px solid var(--line);background:var(--paper-warm);border-radius:2px;overflow:hidden}
+  .rank100-title{
+    font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);padding:14px 20px;border-bottom:1px solid var(--line);background:#fff6;
+  }
+  .rank100-list{list-style:none;display:grid;grid-template-columns:repeat(5,1fr)}
+  .rank100-list li{
+    display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;
+    padding:20px 10px;border-right:1px solid var(--line);position:relative;
+  }
+  .rank100-list li:last-child{border-right:none}
+  .rank100-list .r{
+    font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1.5rem;color:var(--indigo);line-height:1;
+  }
+  .rank100-list .n{font-family:"Gowun Batang",serif;font-weight:700;font-size:1.02rem}
+  .rank100-list .p{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em;color:var(--muted)}
+  .rank100-list li.me{background:var(--indigo);}
+  .rank100-list li.me .r{color:var(--amber)}
+  .rank100-list li.me .n{color:#fff}
+  .rank100-list li.me .p{color:var(--lavender-pale)}
+
+  /* bonus note line */
+  .bonus-note{
+    margin-top:20px;padding:18px 22px;border-left:3px solid var(--lavender);
+    background:var(--mist);border-radius:0 2px 2px 0;
+    font-size:.94rem;line-height:1.78;color:#3a3845;
+  }
+  .bonus-note strong{font-weight:600;color:var(--indigo)}
+  .bonus-note em{font-style:normal;font-weight:500;border-bottom:2px solid var(--lavender-pale);padding-bottom:1px}
+
+  /* why-famous reasons box */
+  .why{margin-top:34px;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+  .why-title{
+    font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);padding:14px 20px;border-bottom:1px solid var(--line);background:var(--paper-warm);
+  }
+  .why-grid{display:grid;grid-template-columns:repeat(2,1fr)}
+  .why-item{
+    padding:20px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+    font-size:.92rem;line-height:1.7;color:#3a3845;position:relative;
+  }
+  .why-item:nth-child(2n){border-right:none}
+  .why-item:nth-child(3),.why-item:nth-child(4){border-bottom:none}
+  .why-item .why-no{
+    font-family:"IBM Plex Mono",monospace;color:var(--amber-deep);font-size:1.05rem;
+    margin-right:8px;font-weight:600;
+  }
+  .why-item b{display:inline;font-family:"Gowun Batang",serif;font-weight:700;font-size:1.05rem;color:var(--ink)}
+  .why-item b::after{content:"";display:block;height:6px}
+
+  /* ---------- FOOD TRIPTYCH ---------- */
+  .food .entry-body{display:block;margin-top:34px}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .dish{
+    border:1px solid var(--line);background:var(--paper-warm);
+    padding:26px 22px;border-radius:2px;position:relative;
+  }
+  .dish .yr{
+    font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--amber-deep);
+    font-size:1.4rem;letter-spacing:-.01em;
+  }
+  .dish h3{font-family:"Gowun Batang",serif;font-size:1.45rem;font-weight:700;margin:6px 0 12px}
+  .dish p{font-size:.94rem;color:#3c3a45;line-height:1.72}
+  .dish .jp{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.1em;color:var(--muted);margin-top:14px}
+
+  /* ---------- MEMO GRID (bonus) ---------- */
+  .memo{background:var(--indigo);color:var(--paper);padding:74px 0;margin-top:46px}
+  .memo .lead-no{font-family:"IBM Plex Mono",monospace;color:var(--lavender);font-size:.82rem;letter-spacing:.12em;font-weight:600}
+  .memo h2{font-family:"Gowun Batang",serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin:8px 0 36px}
+  .memo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--indigo-soft);border:1px solid var(--indigo-soft)}
+  .memo-cell{background:var(--indigo);padding:26px 24px}
+  .memo-cell .k{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+  .memo-cell h4{font-family:"Gowun Batang",serif;font-size:1.2rem;font-weight:700;margin-bottom:8px;color:#fff}
+  .memo-cell p{font-size:.9rem;color:#c9c4dc;font-weight:300;line-height:1.7}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink);color:#8a85a6;padding:56px 0 64px;text-align:center}
+  footer .mark{font-family:"Gowun Batang",serif;color:var(--lavender);font-size:1.5rem;margin-bottom:14px}
+  footer p{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;line-height:2}
+  footer a{color:var(--lavender-pale);text-decoration:none;border-bottom:1px solid var(--indigo-soft)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:760px){
+    .entry-body,.entry:nth-child(even) .entry-body{grid-template-columns:1fr;gap:26px}
+    .entry:nth-child(even) .specimen{order:0}
+    .specimen{position:static}
+    .triptych{grid-template-columns:1fr}
+    .memo-grid{grid-template-columns:1fr}
+    .rank100-list{grid-template-columns:repeat(2,1fr)}
+    .rank100-list li{border-bottom:1px solid var(--line)}
+    .rank100-list li:nth-child(2n){border-right:none}
+    .rank100-list li:last-child{grid-column:1 / -1}
+    .why-grid{grid-template-columns:1fr}
+    .why-item{border-right:none}
+    .why-item:nth-child(3){border-bottom:1px solid var(--line)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="grid-bg"></div>
+  <div class="glow"></div>
+  <svg class="compass" viewBox="0 0 64 64" fill="none" stroke="#9a8ad4" stroke-width="1.4">
+    <circle cx="32" cy="32" r="28"/>
+    <path d="M32 8 L37 30 L32 56 L27 30 Z" fill="#9a8ad4" stroke="none"/>
+    <text x="32" y="20" font-family="IBM Plex Mono" font-size="9" fill="#e9e4f5" text-anchor="middle" stroke="none">北</text>
+  </svg>
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <span>FIELD&nbsp;NOTES</span><span class="bar"></span><span>北海道 · 7.14–7.17</span>
+    </div>
+    <h1>홋카이도,<br><em>알고 가면</em> 다른 여행</h1>
+    <p class="hero-lead">
+      오타루의 운하, 노보리베쓰의 김 오르는 지옥계곡, 라벤더 언덕 위로 머리만 내민 대불.
+      같은 장소도 그 뒤의 이야기를 알면 풍경이 달라집니다. 이번 일정에서 마주칠 여덟 개의 주제를
+      답사 노트로 정리했습니다.
+    </p>
+    <div class="hero-meta">
+      <div><b>전국 5위</b>온천 100선 속 노보리베쓰 (홋카이도 1위)</div>
+      <div><b>2,857곳</b>일본 전역의 온천지 수</div>
+      <div><b>¥320만</b>유바리 멜론 경매 최고가</div>
+    </div>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="wrap">
+    <span><i>◦</i> 두대불전 · 안도 다다오</span>
+    <span><i>◦</i> 온천 100선 전국 5위 노보리베쓰</span>
+    <span><i>◦</i> 바둑판 도시 삿포로</span>
+    <span><i>◦</i> 비에이 청의 호수·후라노 라벤더</span>
+    <span><i>◦</i> 스프카레·미소라멘·징기스칸</span>
+    <span><i>◦</i> 니카 사인이 유명한 이유</span>
+    <span><i>◦</i> 유바리 멜론</span>
+  </div>
+</div>
+
+<!-- ===================== ENTRIES ===================== -->
+<main class="wrap">
+
+  <!-- 01 도도부현 -->
+  <section class="entry reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.01</span>
+      <span class="entry-kicker">Administrative Divisions</span>
+    </div>
+    <h2>왜 ‘홋카이道’ 하나만 ‘도(道)’일까
+      <small>일본의 광역 행정구역, 도도부현(都道府県)을 한 번에 정리하면</small>
+    </h2>
+    <div class="entry-body">
+      <div class="prose">
+        <p>일본의 광역 자치단체는 모두 <strong>47개</strong>입니다. 글자를 풀어 보면 1도(都·도쿄), 1도(道·홋카이도), 2부(府·오사카·교토), 그리고 나머지 43현(県). 우리의 ‘도·광역시’에 해당하는 단위예요.</p>
+        <p>여기서 ‘道’는 사실 일본에서 가장 오래된 행정 단위입니다. 7세기 율령제의 옛 구획(도카이도·난카이도 등 고키시치도)의 흔적인데, 지금 이 ‘道’를 쓰는 곳은 홋카이도가 유일합니다.</p>
+        <p>이름 자체도 그 작명법을 따랐습니다. 1869년, 그때까지 ‘에조치(蝦夷地)’라 불리던 이 섬을 개척하면서 기존의 ‘~도’에 맞춰 <strong>‘북쪽 바다의 길’ 홋카이도</strong>라 붙인 것이죠. 통계표에서 일본이 지역을 정렬할 때 늘 홋카이도부터 시작하는 이유이기도 합니다. 우리는 위상 순, 일본은 북→남 지리 순으로 줄을 세웁니다.</p>
+      </div>
+      <aside class="specimen">
+        <div class="tag"><span>SPECIMEN</span><span>都道府県</span></div>
+        <div class="fig">1·1·2·<u>43</u></div>
+        <div class="fig-label">都 도쿄 · 道 홋카이도 · 府 오사카·교토 · 県 나머지 43곳</div>
+        <div class="divider"></div>
+        <div class="note">홋카이도는 하코다테·삿포로·네무로 3현을 거쳐 1886년 홋카이도청으로 통합, 1947년 지방자치법으로 지금의 ‘道’가 되었습니다.</div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 02 삿포로 -->
+  <section class="entry reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.02</span>
+      <span class="entry-kicker">Sapporo · A Planned City</span>
+    </div>
+    <h2>아무도 살지 않던 습지에 그린 바둑판
+      <small>삿포로의 도로가 유난히 반듯한 데는 이유가 있습니다</small>
+    </h2>
+    <div class="entry-body">
+      <div class="prose">
+        <p>‘삿포로’는 아이누어 <strong>삿 포로(건조하고 넓은 땅)</strong> 또는 사리 포로 펫(큰 습지의 강)에서 왔다고 봅니다. 개척 전에는 실개천이 갈라져 흐르던 습지로, 사람이 거의 살지 않던 곳이었어요.</p>
+        <p>1869년 개척사(開拓使)가 설치되며 본격 건설이 시작됩니다. 차관 구로다 기요타카는 1871년 미국으로 건너가 <strong>미국식 시스템</strong>을 도입하기로 하고, 윌리엄 클라크 등 전문가를 초빙했죠. 그래서 삿포로는 교토를 본뜬 듯하면서도 미국 중서부 도시처럼 반듯한 <strong>격자형 계획도시</strong>가 되었습니다.</p>
+        <p>주소도 독특합니다. 오도리공원과 소세이강을 기준으로 北○条·西○丁目처럼 좌표를 읽듯 찾아갑니다. 일본 대도시가 대개 해안에 발달한 것과 달리 삿포로는 드문 <strong>내륙 도시</strong>이고요. 1972년 아시아 최초의 동계올림픽을 치르며 도시가 단숨에 근대화됐습니다.</p>
+      </div>
+      <aside class="specimen">
+        <div class="tag"><span>SPECIMEN</span><span>1869–</span></div>
+        <div class="fig">北1条<br>西2丁目</div>
+        <div class="fig-label">도청 주소. 도시 전체가 좌표처럼 읽히는 격자 시스템.</div>
+        <div class="divider"></div>
+        <div class="note">개척의 거점이던 삿포로농학교(1876)가 지금의 홋카이도대학입니다. 초대 교두 클라크가 남긴 말이 그 유명한 “Boys, be ambitious”.</div>
+      </aside>
+    </div>
+    <div class="tiein">📍 일정 <b>금요일 아침</b> · 오도리공원과 일본 최고(最古)급 시계탑 산책</div>
+  </section>
+
+  <!-- 03 두대불전 -->
+  <section class="entry reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.03</span>
+      <span class="entry-kicker">Hill of the Buddha · Tadao Ando</span>
+    </div>
+    <h2>머리만 보이는 대불, 그리고 권투선수 출신 건축가
+      <small>두대불전(아타마 다이부쓰)과 안도 다다오</small>
+    </h2>
+    <div class="entry-body">
+      <div class="prose">
+        <p>마코마나이 다키노 영원은 1981년 문을 연 추모공원입니다. 모아이 석상과 스톤헨지까지 늘어선 이색적인 묘원이죠. 이곳에 2000년경 세운 석조 대불을, 2015년 <strong>안도 다다오</strong>가 라벤더 언덕·물의 정원·40m 터널로 다시 감쌌습니다.</p>
+        <p>멀리서는 부처의 머리만 살짝 보입니다. <strong>“보이지 않는 것이 상상을 불러일으킨다”</strong>는 의도대로, 물의 정원을 돌아 어두운 터널을 지나야 13.5m 대불과 마주하게 되죠. 7월이면 언덕에 15만 그루의 라벤더가 핀다는 점에서 이번 여름 일정과 절묘하게 맞습니다.</p>
+        <p>설계자 안도 다다오의 이력이 특이합니다. 정식 건축 교육을 받은 적 없는 고졸로, <strong>트럭 운전사와 프로 복서</strong>를 거쳐 독학으로 건축을 익혔어요. 르 코르뷔지에에 감화되어 노출 콘크리트를 대중화했고, 1995년 ‘건축계의 노벨상’ 프리츠커상을 받자 상금을 고베 지진 고아들에게 기부했습니다.</p>
+      </div>
+      <aside class="specimen">
+        <div class="tag"><span>SPECIMEN</span><span>頭大仏</span></div>
+        <div class="fig"><u>13.5</u>m</div>
+        <div class="fig-label">언덕 너머로 머리만 드러내는 대불의 높이. 둘레엔 라벤더 15만 그루.</div>
+        <div class="divider"></div>
+        <div class="note">안도의 한국 작품: 원주 뮤지엄 산, 제주 본태박물관·유민미술관, 서울 LG아트센터 등.</div>
+      </aside>
+    </div>
+    <div class="tiein">📍 일정 <b>목요일 08:30</b> · 렌터카로 두대불전 → 노보리베쓰</div>
+  </section>
+
+  <!-- 04 노보리베쓰 -->
+  <section class="entry reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.04</span>
+      <span class="entry-kicker">Noboribetsu Onsen</span>
+    </div>
+    <h2>전국 약 3천 곳 중, 노보리베쓰는 몇 등일까
+      <small>‘온천 대국’ 일본에서 노보리베쓰가 차지하는 자리</small>
+    </h2>
+    <div class="entry-body">
+      <div class="prose">
+        <p>화산섬 일본은 그야말로 온천 대국입니다. 환경성 통계 기준 전국 온천지는 <strong>약 2,857곳</strong>, 땅에서 솟는 원천만 <strong>27,920곳</strong>에 이르고 연간 1억 명 넘게 온천을 찾습니다. 일찍이 1948년 ‘온천법’까지 만든 나라예요.</p>
+        <p>그 수많은 온천 가운데 노보리베쓰의 위치가 뚜렷합니다. 관광경제신문이 8개 관광단체 심사로 뽑는 <strong>‘일본 온천 100선’(2025)에서 전국 5위</strong>, 즉 <strong>홋카이도에서는 1위</strong>입니다. 구사쓰·게로·도고·벳푸 다음 자리를 지키는, 일본을 대표하는 명탕인 셈이죠.</p>
+        <p>비결은 ‘온천 백화점’이라는 별명에 있습니다. 한 마을에서 <strong>아홉 가지(자료에 따라 9~11종) 수질</strong>을 즐길 수 있고, 용출량은 하루 약 <strong>1만 톤</strong>. 받아 두지 않고 흘려보내는 ‘가케나가시’가 가능할 만큼 풍부하죠. 이 원천이 솟는 곳이 약 1만 년 전 화산활동으로 생긴 지름 450m의 화구 자리, <strong>지옥계곡(지고쿠다니)</strong>입니다. 이름 ‘노보리베쓰’도 아이누어 누푸르펫(색이 짙은 강)에서 왔어요.</p>
+      </div>
+      <aside class="specimen">
+        <div class="tag"><span>RANK</span><span>温泉100選 ’25</span></div>
+        <div class="fig">전국 <u>5</u>위</div>
+        <div class="fig-label">관광경제신문 ‘일본 온천 100선’(2025) · 홋카이도 내 1위.</div>
+        <div class="divider"></div>
+        <div class="note">전국 온천지 약 2,857곳 · 원천 27,920곳. 한 마을 9종 수질 · 하루 1만 톤 용출.</div>
+      </aside>
+    </div>
+
+    <div class="rank100">
+      <div class="rank100-title">일본 온천 100선 · 2025 — TOP 5</div>
+      <ol class="rank100-list">
+        <li><span class="r">1</span><span class="n">쿠사쓰</span><span class="p">군마</span></li>
+        <li><span class="r">2</span><span class="n">게로</span><span class="p">기후</span></li>
+        <li><span class="r">3</span><span class="n">도고</span><span class="p">에히메</span></li>
+        <li><span class="r">4</span><span class="n">벳푸 팔탕</span><span class="p">오이타</span></li>
+        <li class="me"><span class="r">5</span><span class="n">노보리베쓰</span><span class="p">홋카이도</span></li>
+      </ol>
+    </div>
+
+    <div class="bonus-note">
+      <strong>한 걸음 더 —</strong> 온천가 뒤편 시호레이산 정상엔 불곰 60여 마리가 사는 <em>노보리베쓰 곰 목장</em>이 있고, 매년 8월 마지막 주말엔 염라대왕과 도깨비가 거리를 행진하는 <em>지옥 마쓰리</em>가 열립니다. 참고로 일본 온천법에서 ‘온천’의 자격은 25℃ 이상이거나, 라돈·철분 등 특정 성분을 일정량 이상 함유할 것 — 수증기·가스도 조건을 갖추면 온천으로 칩니다.
+    </div>
+
+    <div class="tiein">📍 일정 <b>목요일 11:00→13:00</b> · 지옥계곡 산책 후 다이이치 타키모토칸 입욕</div>
+  </section>
+
+  <!-- 05 비에이 · 후라노 -->
+  <section class="entry reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.05</span>
+      <span class="entry-kicker">Biei · Furano</span>
+    </div>
+    <h2>광고가 이름을 준 언덕, 우연이 만든 호수
+      <small>비에이·후라노의 풍경 뒤에 숨은 사연들</small>
+    </h2>
+    <div class="entry-body">
+      <div class="prose">
+        <p>비에이의 ‘패치워크 로드’는 작물마다 색이 달라 조각보처럼 보이는 구릉입니다. 그런데 이곳의 명물 나무들은 하나같이 <strong>광고에서 이름을 얻었어요.</strong> ‘켄과 메리의 나무’는 1972년 닛산 스카이라인 CF 속 커플 이름에서, ‘세븐스타의 나무’는 1976년 담배 세븐스타 패키지에서, ‘마일드세븐 언덕’은 담배 광고에서 따왔죠. 작물은 해마다 바뀌어 패치워크 무늬도 매년 달라지고, 그 색은 <strong>여름에만</strong> 살아납니다. (나무들은 사유지 밭이니 길에서만 감상하세요.)</p>
+        <p>청의 호수(아오이이케)의 신비로운 코발트블루는 사실 <strong>물 자체엔 색이 없습니다.</strong> 상류 시로가네 온천에서 나온 알루미늄 성분이 비에이강과 섞여 만든 콜로이드 입자가 짧은 파장의 푸른빛을 산란시켜 파랗게 보이는 것이죠. 게다가 이 호수는 자연이 아니라 <strong>우연의 산물</strong>입니다. 1988년 도카치다케 화산 분화의 이류(라하르)를 막으려 비에이강에 쌓은 사방댐에 물이 고이며 생겼고, 그때 물에 잠겨 죽은 낙엽송이 수면 위에 서서 몽환적인 풍경을 완성합니다.</p>
+        <p>그 파란 물의 출발점이 <strong>흰수염폭포</strong>예요. 절벽 틈에서 지하수가 흰 수염처럼 새어 나오는 약 30m 폭포로, 이 알루미늄 섞인 물이 비에이강을 코발트블루로 물들여 청의 호수로 흘러듭니다. 청의 호수는 <strong>2012년 애플이 OS X·iOS 배경화면</strong>으로 채택하며 전 세계에 알려졌죠.</p>
+      </div>
+      <aside class="specimen">
+        <div class="tag"><span>SPECIMEN</span><span>青い池</span></div>
+        <div class="fig"><u>1988</u>년</div>
+        <div class="fig-label">화산 이류를 막는 사방댐에 물이 고여 ‘우연히’ 생긴 인공 호수.</div>
+        <div class="divider"></div>
+        <div class="note">2012년 애플 배경화면으로 세계적 유명세. 비 온 뒤엔 초록빛으로 변하기도 합니다.</div>
+      </aside>
+    </div>
+
+    <div class="bonus-note">
+      <strong>라벤더는 어떻게 후라노의 상징이 됐나 —</strong> 팜 토미타는 1958년 <em>향료용</em>으로 라벤더를 심기 시작했지만, 1970년대 값싼 합성·수입 향료에 밀려 1973년경 후라노의 라벤더밭은 대부분 사라졌습니다. 운명을 바꾼 건 <em>1976년 국철(현 JR) 달력</em>에 실린 라벤더밭 사진. 전국적 명소로 부활해 지금은 입장 무료에도 연 100만 명이 찾습니다. 절정은 <em>7월 초·중순</em>으로 이번 일정과 딱 맞습니다.
+    </div>
+
+    <div class="tiein">📍 일정 <b>수요일 종일</b> · 패치워크 로드 → 청의 호수 → 흰수염폭포 → 사계채의 언덕 → 팜 토미타</div>
+  </section>
+
+  <!-- 06 세 가지 명물 -->
+  <section class="entry food reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.06</span>
+      <span class="entry-kicker">Three Sapporo Classics</span>
+    </div>
+    <h2>스프카레 · 미소라멘 · 징기스칸의 내력
+      <small>이번 일정에서 모두 한 번씩 만나는 삿포로 3대 명물</small>
+    </h2>
+    <div class="entry-body">
+      <div class="triptych">
+        <div class="dish">
+          <div class="yr">1971</div>
+          <h3>스프카레</h3>
+          <p>삿포로의 찻집 ‘아잔타’가 손님 건강을 위해 30여 종 향신료를 우린 ‘약선 카레’가 원형. 국물만 내다가 “건더기가 아깝다”는 손님 말에 재료를 더했고, 1993년 ‘매직 스파이스’가 ‘스프카레’로 이름 붙였습니다. 지금 삿포로에만 200곳이 넘습니다.</p>
+          <div class="jp">スープカレー · 薬膳カリィ</div>
+        </div>
+        <div class="dish">
+          <div class="yr">1955</div>
+          <h3>미소라멘</h3>
+          <p>원래 삿포로 라멘은 간장·소금맛뿐이었습니다. 노포 ‘아지노산페이’가 된장국에서 힌트를 얻어 미소를 넣자 ‘삿포로=미소’가 굳어졌죠. 다가수 숙성 꼬불면과 돼지뼈 육수, 볶은 야채가 정석. 하코다테 소금·아사히카와 간장과 함께 홋카이도 3대 라멘입니다.</p>
+          <div class="jp">味噌ラーメン · 味の三平</div>
+        </div>
+        <div class="dish">
+          <div class="yr">1918</div>
+          <h3>징기스칸</h3>
+          <p>군복용 양모를 자급하려 세운 종양장에서 남는 양고기를 쓰려 고안된 요리. 이름은 칭기즈 칸의 일본어 발음에서 따왔을 뿐 몽골과 직접 관련은 없습니다. 볼록한 전용 철판에 양고기와 채소를 굽고, 소스는 먼저(다키가와식)냐 나중(삿포로식)이냐로 갈립니다.</p>
+          <div class="jp">ジンギスカン · 成吉思汗</div>
+        </div>
+      </div>
+    </div>
+    <div class="tiein">📍 일정 <b>화·수·목 저녁</b> · 스아게(스프카레) → 시로쿠마(징기스칸) → 쥰렌(미소라멘)</div>
+  </section>
+
+  <!-- 07 니카 사인 -->
+  <section class="entry reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.07</span>
+      <span class="entry-kicker">Susukino · The Nikka Sign</span>
+    </div>
+    <h2>이 위스키 간판이 삿포로의 얼굴이 된 이유
+      <small>“오사카에 글리코맨, 삿포로엔 니카 사인”</small>
+    </h2>
+    <div class="entry-body">
+      <div class="prose">
+        <p>스스키노 교차로의 랜드마크는 닛카(Nikka) 위스키의 거대한 광고판, 콧수염 신사 <strong>‘The King of Blenders’</strong>입니다. 가로 13m·세로 7.5m 크기로, 1969년 블랙닛카를 홍보하려 스스키노 빌딩에 처음 걸렸어요. 첫 버전은 네온 약 500개가 3초마다 여섯 색으로 바뀌는 화려한 간판이었습니다.</p>
+        <p>그런데 ‘왜 이렇게까지 유명할까’의 답은 간판 그 자체보다 <strong>쌓인 시간</strong>에 있습니다. 1969년 이래 50여 년간 디자인을 거의 그대로 유지한 채 ‘닛카 아저씨’·‘수염 아저씨’로 불리며 현지인의 일상 풍경이 됐죠. 모습을 바꿀 때마다 <strong>‘닛카는 어디에?’</strong> 같은 캠페인으로 도시 전체가 들썩였을 만큼 애착의 대상입니다.</p>
+        <p>여기에 위치와 의미가 겹칩니다. 일본 3대 환락가 스스키노의 정중앙, 노면전차가 지나는 교차로에 서서 거리의 야경을 대표하고, 닛카의 창업자가 홋카이도 요이치에 증류소를 세운 <strong>‘일본 위스키의 아버지’ 다케쓰루 마사타카</strong>와 연결되며 이 지역의 위스키 역사까지 품습니다. 그래서 오사카 글리코맨과 나란히 <strong>일본을 대표하는 인증샷 명소</strong>가 되었고, 특히 눈 내리는 겨울밤의 모습이 압권으로 꼽힙니다.</p>
+      </div>
+      <aside class="specimen">
+        <div class="tag"><span>SPECIMEN</span><span>KING of BLENDERS</span></div>
+        <div class="fig"><u>1969</u>년~</div>
+        <div class="fig-label">스스키노 빌딩에 처음 등장. 13m × 7.5m, 첫 버전 네온 약 500개.</div>
+        <div class="divider"></div>
+        <div class="note">마스코트 ‘King of Blenders’는 1965년 탄생. 창업자 다케쓰루를 본떴다는 설과, 영국 블렌드 명인 W.P. 로리를 모델로 했다는 공식 설명이 함께 전합니다.</div>
+      </aside>
+    </div>
+
+    <div class="why">
+      <div class="why-title">니카 사인이 유명한 이유, 네 가지</div>
+      <div class="why-grid">
+        <div class="why-item"><span class="why-no">①</span><b>오래된 터줏대감</b>1969년부터 50여 년, 거의 그대로 자리를 지킨 도시의 고정 풍경.</div>
+        <div class="why-item"><span class="why-no">②</span><b>스스키노의 중심</b>일본 3대 환락가 한복판, 노면전차 교차로에 서서 야경을 대표.</div>
+        <div class="why-item"><span class="why-no">③</span><b>글리코맨의 짝</b>오사카 글리코맨과 함께 거론되는 일본의 대표 인증샷 간판.</div>
+        <div class="why-item"><span class="why-no">④</span><b>위스키의 고향</b>요이치 증류소·다케쓰루로 이어지는 홋카이도 위스키 역사의 상징.</div>
+      </div>
+    </div>
+
+    <div class="bonus-note">
+      <strong>한 걸음 더 —</strong> 삿포로엔 술자리 마무리를 라멘 대신 <em>파르페</em>로 닫는 ‘시메파르페’ 문화가 있습니다. 니카 사인 앞에서 사진을 찍었다면, 스스키노의 시메파르페 전문점에서 달콤하게 하루를 마무리해 보세요.
+    </div>
+
+    <div class="tiein">📍 일정 <b>화요일 밤</b> · 다누키코지 → 스스키노 → 라멘 요코초</div>
+  </section>
+
+  <!-- 08 유바리 멜론 -->
+  <section class="entry reveal">
+    <div class="entry-head">
+      <span class="entry-no">no.08</span>
+      <span class="entry-kicker">Yubari King Melon</span>
+    </div>
+    <h2>멜론 두 통에 5천만 원, 그 비싼 값의 비밀
+      <small>‘세계에서 가장 비싼 과일’ 유바리 멜론</small>
+    </h2>
+    <div class="entry-body">
+      <div class="prose">
+        <p>정식 품종명은 <strong>유바리 킹</strong>. ‘유바리’는 상표여서 유바리시 농가가 키운 것만 그 이름을 쓸 수 있습니다. 1961년 유바리 농가 10명과 이웃 쿠리야마 농가 30명이 힘을 모아 시작한 게 출발점이었죠.</p>
+        <p>매년 5월 첫 경매가 화제입니다. 2016년 한 통 세트가 <strong>¥300만</strong>, 이후 2통에 <strong>¥320만·¥500만</strong>까지 올랐어요. 단, 이건 “첫 수확물이 행운을 부른다”는 믿음과 브랜드 과시가 겹친 이벤트성 가격. 일반 유통은 한 통 4,000~6,000엔 선입니다.</p>
+        <p>수확부터 완숙까지가 짧아 장기 수송에 약하고, 연 1회·5월말~8월초만 나옵니다. 사실상 <strong>현지에서만 제철에</strong> 맛볼 수 있다는 점이 희소성을 더하죠. 흥미롭게도 유바리시는 탄광 사양으로 2007년 재정 파산한 도시이기도 합니다. ‘파산한 시’와 ‘최고의 멜론’이라는 두 얼굴을 가진 셈이에요.</p>
+      </div>
+      <aside class="specimen">
+        <div class="tag"><span>SPECIMEN</span><span>夕張メロン</span></div>
+        <div class="fig">¥<u>320</u>만</div>
+        <div class="fig-label">2018년 첫 경매 2통 낙찰가. 2019년엔 ¥500만 기록.</div>
+        <div class="divider"></div>
+        <div class="note">붉은 과육 멜론이라고 다 유바리가 아닙니다. 산지·생산자가 엄격히 제한됩니다.</div>
+      </aside>
+    </div>
+    <div class="tiein">📍 보너스 · 후라노/비에이 일대는 여름 멜론·라벤더의 본고장</div>
+  </section>
+
+</main>
+
+<!-- ===================== MEMO GRID ===================== -->
+<section class="memo">
+  <div class="wrap">
+    <span class="lead-no">no.09 — 잡학 메모</span>
+    <h2>걷다가 꺼내 보면 좋은 짧은 사실들</h2>
+    <div class="memo-grid">
+      <div class="memo-cell">
+        <div class="k">Otaru</div>
+        <h4>오타루라는 이름</h4>
+        <p>아이누어 ‘오타오르나이’, 모래사장 속을 흐르는 강이라는 뜻. 운하와 석조 창고 거리로 유명한 항구 도시입니다.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Clock Tower</div>
+        <h4>삿포로 시계탑</h4>
+        <p>1878년 삿포로농학교 연무장으로 지어졌습니다. 일본에서 가장 오래된 축에 드는 시계탑.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Drowned Forest</div>
+        <h4>물에 잠긴 숲</h4>
+        <p>청의 호수에 서 있는 앙상한 나무들은 호수가 생기며 수몰돼 죽은 낙엽송·자작나무입니다. 푸른 물과 어우러져 더 몽환적이죠.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Mt. Yotei</div>
+        <h4>에조 후지</h4>
+        <p>원뿔형 요테이산은 후지산을 닮아 ‘에조 후지’로 불립니다. 나카야마 고개에서 맑은 날 조망.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Onsen Manner</div>
+        <h4>온천 기본 예절</h4>
+        <p>탕에 들어가기 전 몸을 깨끗이 씻기. 시설에 따라 문신 입장 제한이 있으니 미리 확인하세요.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Place Names</div>
+        <h4>지명은 대개 아이누어</h4>
+        <p>삿포로·오타루·노보리베쓰·유바리까지, 홋카이도 지명 상당수가 아이누어에서 음을 따 한자를 붙인 것입니다.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Onsen Act 1948</div>
+        <h4>‘온천’의 자격</h4>
+        <p>일본 온천법상 25℃ 이상이거나 라돈·철분 등 특정 성분이 일정량 이상이면 온천. 수증기·가스도 인정됩니다.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Shime-Parfait</div>
+        <h4>마무리는 파르페로</h4>
+        <p>술자리 끝을 라멘 대신 파르페로 닫는 ‘시메파르페’가 삿포로의 명물 식문화. 스스키노에 전문점이 모여 있어요.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Navel of Hokkaido</div>
+        <h4>후라노는 ‘배꼽’</h4>
+        <p>홋카이도의 거의 정중앙(동경 142°20′·북위 43°20′)이라 ‘배꼽 마을’로 불립니다. 매년 7월 말엔 배꼽 마쓰리가 열려요.</p>
+      </div>
+      <div class="memo-cell">
+        <div class="k">Ad-Famous Trees</div>
+        <h4>광고 속 그 나무들</h4>
+        <p>켄과 메리의 나무·세븐스타의 나무는 자동차·담배 광고로 이름을 얻었습니다. 모두 사유지라 길에서만 보세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="mark">北</div>
+    <p>홋카이도 답사 노트 · 일정 ③ (오타루 + 노보리베쓰 온천) 동반 자료</p>
+    <p>원본 일정 보기 → <a href="https://rlatls1997.github.io/plan/plan3.html">rlatls1997.github.io/plan/plan3.html</a></p>
+    <p>良い旅を — 좋은 여행 되시길</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(e){e.classList.add('in')});return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+      });
+    },{threshold:.12});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>
